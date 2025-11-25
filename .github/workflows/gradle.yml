@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -14,6 +15,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
+          distribution: 'temurin'
+          cache: 'gradle'
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -23,9 +26,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Copy app-order.jar to artifacts
-        run: mkdir -p artifacts && wget https://your-url-to/app-order.jar -O artifacts/app-order.jar
-
+      
       - name: Run SUT
         run: java -jar ./artifacts/app-order.jar &
 
